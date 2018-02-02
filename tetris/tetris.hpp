@@ -19,6 +19,13 @@ private:
 	tetromino get_random_tetromino();
 	vector_t get_random_start_position();
 
+	// GAME
+	void game_loop();
+
+	// COLLISION
+	bool collides(vector_t part, int16_t position_x, int16_t position_y);
+
+	// CONSOLE I/O CONTROLLER
 	console_controller console;
 	
 	// GAME BORDER
