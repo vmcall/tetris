@@ -3,9 +3,9 @@
 
 using vector_t = std::pair<int16_t, int16_t>;
 
-struct component
+struct tetromino
 {
-	component(const uint8_t character, const std::initializer_list<vector_t> args) : elements(args), unique_character(character) {}
+	tetromino(const uint8_t character, const std::initializer_list<vector_t> args) : elements(args), unique_character(character) {}
 
 	auto operator[] (const size_t index) -> vector_t&
 	{

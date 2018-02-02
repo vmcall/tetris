@@ -1,26 +1,31 @@
 #pragma once
 #include "stdafx.h"
-#include "tetris_component.hpp"
+#include <cstdint>
 
-using component_vector_t = std::vector<std::tuple<vector_t, bool, component>>;
+using tetromino_vector_t = std::vector<std::tuple<vector_t, bool, tetromino>>;
 
-namespace tetris
+class tetris
 {
+public:
+	tetris(console_controller con, int32_t width, int32_t height) : 
+		console(con), border_width(width), border_height(height), pieces(), solid_parts() {}
+
 	void run();
 
-	// PRIVATE
-	namespace details
-	{
-		void draw_boundary();
-		void clear_game_frame();
-		void draw_component(const int16_t x, const int16_t y, component comp);
+private:
+	void draw_boundary();
+	void clear_game_frame();
+	void draw_tetromino(const int16_t x, const int16_t y, tetromino comp);
+	tetromino get_random_tetromino();
+	vector_t get_random_start_position();
 
-		// GAME BORDER
-		const extern int32_t border_width;
-		const extern int32_t border_height;
-
-		// ENTITIES
-		extern component_vector_t components;
-		extern std::vector<vector_t> solid_parts; // FOR COLLISION DETECTION
-	}
-}
+	console_controller console;
+	
+	// GAME BORDER
+	int32_t border_width;
+	int32_t border_height;
+	
+	// ENTITIES
+	tetromino_vector_t pieces;
+	std::vector<vector_t> solid_parts; // FOR COLLISION DETECTION
+};
