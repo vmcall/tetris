@@ -1,8 +1,11 @@
 #include "stdafx.h"
 #include "console.hpp"
+#define GWL_WNDPROC (-4)
 
-void console_controller::initialise()
+console_controller::console_controller(HANDLE hconsole)
 {
+	this->console_handle = hconsole;
+
 	// SET WINDOW SIZE
 	auto window_handle = GetConsoleWindow();
 	RECT window_rectangle;
@@ -11,7 +14,12 @@ void console_controller::initialise()
 
 	// HIDE NATIVE CURSOR
 	CONSOLE_CURSOR_INFO cursor_info{ 1, false };
-	SetConsoleCursorInfo(this->console_handle, &cursor_info);
+	SetConsoleCursorInfo(this->get_console_handle(), &cursor_info);
+}
+
+HANDLE& console_controller::get_console_handle()
+{
+	return this->console_handle;
 }
 
 void console_controller::set_title(const std::wstring& title)
@@ -19,23 +27,38 @@ void console_controller::set_title(const std::wstring& title)
 	SetConsoleTitleW(title.c_str());
 }
 
+bool console_controller::get_key_press(const int32_t vkey)
+{
+	const auto key_down = GetAsyncKeyState(vkey);
+	const auto pressed_last_call = this->get_pressed_keys()[vkey];
+	const auto result = key_down && !pressed_last_call;
+	this->get_pressed_keys()[vkey] = key_down;
+
+	return result;
+}
+
+std::array<bool, 256>& console_controller::get_pressed_keys()
+{
+	return this->pressed_keys;
+}
+
 void console_controller::clear()
 {
 	CONSOLE_SCREEN_BUFFER_INFO buffer;
-	if (!GetConsoleScreenBufferInfo(this->console_handle, &buffer))
+	if (!GetConsoleScreenBufferInfo(this->get_console_handle(), &buffer))
 		return;
 
 	auto null_coords = COORD{ 0,0 };
 	auto count = buffer.dwSize.X * buffer.dwSize.Y;
 
 	uint32_t written_count;
-	if (!FillConsoleOutputCharacterW(this->console_handle, static_cast<TCHAR>(' '), count, null_coords, reinterpret_cast<LPDWORD>(&written_count)))
+	if (!FillConsoleOutputCharacterW(this->get_console_handle(), static_cast<TCHAR>(' '), count, null_coords, reinterpret_cast<LPDWORD>(&written_count)))
 		return;
 }
 void console_controller::clear(const int16_t x, const int16_t y, const int16_t width, const int16_t height)
 {
 	const std::string clear_buffer(width, ' ');
-	for (size_t i = 0; i < height; i++)
+	for (int16_t i = 0; i < height; i++)
 		fill_horizontal(x, y + i, ' ', width);
 }
 
@@ -53,38 +76,38 @@ uint16_t console_controller::read(const int16_t x, const int16_t y)
 	COORD coords{ x, y };
 	COORD size{ 1,1 };
 
-	return ReadConsoleOutput(this->console_handle, &buffer, size, coords, &rectangle) ? buffer.Char.UnicodeChar : L' ';
+	return ReadConsoleOutput(this->get_console_handle(), &buffer, size, coords, &rectangle) ? buffer.Char.UnicodeChar : L' ';
 }
 
 void console_controller::fill_horizontal(const int16_t x, const int16_t y, const uint16_t character, const uint16_t count)
 {
 	CONSOLE_SCREEN_BUFFER_INFO buffer;
-	if (!GetConsoleScreenBufferInfo(this->console_handle, &buffer))
+	if (!GetConsoleScreenBufferInfo(this->get_console_handle(), &buffer))
 		return;
 
 	auto coords = COORD{ x, y };
 
 	uint32_t written_count;
-	if (!FillConsoleOutputCharacterW(this->console_handle, character, count, coords, reinterpret_cast<LPDWORD>(&written_count)))
+	if (!FillConsoleOutputCharacterW(this->get_console_handle(), character, count, coords, reinterpret_cast<LPDWORD>(&written_count)))
 		return;
 }
 
 void console_controller::fill_vertical(const int16_t x, const int16_t y, const uint16_t character, const uint16_t count)
 {
-	for (size_t i = 0; i < count; i++)
+	for (int16_t i = 0; i < count; i++)
 		this->draw(x, y + i, character);
 }
 
 void console_controller::set_position(const int16_t x, const int16_t y)
 {
 	const auto coord = COORD{ x, y };
-	SetConsoleCursorPosition(this->console_handle, coord);
+	SetConsoleCursorPosition(this->get_console_handle(), coord);
 }
 
 std::pair<int16_t, int16_t> console_controller::get_position()
 {
 	CONSOLE_SCREEN_BUFFER_INFO  info;
-	GetConsoleScreenBufferInfo(this->console_handle, &info);
+	GetConsoleScreenBufferInfo(this->get_console_handle(), &info);
 
 	return std::make_pair(info.dwCursorPosition.X, info.dwCursorPosition.Y);
 }

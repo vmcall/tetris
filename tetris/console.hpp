@@ -1,14 +1,20 @@
 #pragma once
 #include "stdafx.h"
 
+using window_procedure_t = LRESULT(*)(HWND window_handle, UINT msg, WPARAM wparam, LPARAM lparam);
+
 class console_controller
 {
 public:
-	console_controller(HANDLE hconsole) : console_handle(hconsole) {}
+	console_controller(HANDLE hconsole);
 
 	// GENERAL
-	void initialise();
+	HANDLE& get_console_handle();
 	void set_title(const std::wstring& title);
+
+	// CONTROL
+	bool get_key_press(const int32_t vkey);
+	std::array<bool, 256>& get_pressed_keys();
 
 	// FILLING
 	void clear();
@@ -23,5 +29,6 @@ public:
 	std::pair<int16_t, int16_t> get_position();
 
 private:
+	std::array<bool, 256> pressed_keys;
 	HANDLE console_handle;
 };
