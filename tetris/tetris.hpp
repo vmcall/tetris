@@ -38,17 +38,6 @@ public:
 	void run();
 
 private:
-	template<class operation, class member>
-	auto make_handler(member m)
-	{
-		return [=](tetris* instance, tetromino_data& data, screen_vector vector_copy, bool& add_new_piece)
-		{
-			vector_copy.*m = operation()(vector_copy.*m, 1);
-			if (!instance->does_element_collide(data.piece, vector_copy))
-				data.position.*m = operation()(data.position.*m, 1);
-		}
-	}
-
 	void draw_boundary();
 	void clear_game_frame();
 	void draw_tetromino(const screen_vector position, tetromino comp);
