@@ -7,7 +7,7 @@ console_controller::console_controller(HANDLE hconsole)
 	this->console_handle = hconsole;
 
 	// SET WINDOW SIZE
-	auto window_handle = GetConsoleWindow();
+	const auto window_handle = GetConsoleWindow();
 	RECT window_rectangle;
 	GetWindowRect(window_handle, &window_rectangle);
 	MoveWindow(window_handle, window_rectangle.left, window_rectangle.top, 400, 400, true);
@@ -26,6 +26,7 @@ void console_controller::set_title(const std::wstring& title)
 {
 	SetConsoleTitleW(title.c_str());
 }
+
 
 bool console_controller::get_key_press(const int32_t vkey)
 {
@@ -48,8 +49,8 @@ void console_controller::clear()
 	if (!GetConsoleScreenBufferInfo(this->get_console_handle(), &buffer))
 		return;
 
-	auto null_coords = COORD{ 0,0 };
-	auto count = buffer.dwSize.X * buffer.dwSize.Y;
+	const auto null_coords = COORD{ 0,0 };
+	const auto count = buffer.dwSize.X * buffer.dwSize.Y;
 
 	uint32_t written_count;
 	if (!FillConsoleOutputCharacterW(this->get_console_handle(), static_cast<TCHAR>(' '), count, null_coords, reinterpret_cast<LPDWORD>(&written_count)))
@@ -68,34 +69,39 @@ void console_controller::draw(const int16_t x, const int16_t y, const uint16_t c
 	this->set_position(x, y);
 	printf("%lc", character);
 }
+void console_controller::draw(const int16_t x, const int16_t y, const uint16_t character, const uint16_t color_code)
+{
+	// SET COLOR
+	SetConsoleTextAttribute(this->get_console_handle(), color_code);
+
+	// SET POSITION AND WRITE
+	this->set_position(x, y);
+	printf("%lc", character);
+}
 
 uint16_t console_controller::read(const int16_t x, const int16_t y)
 {
 	CHAR_INFO buffer;
 	SMALL_RECT rectangle{ x, y, x, y };
-	COORD coords{ x, y };
-	COORD size{ 1,1 };
+	const COORD coords{ x, y };
+	const COORD size{ 1,1 };
 
 	return ReadConsoleOutput(this->get_console_handle(), &buffer, size, coords, &rectangle) ? buffer.Char.UnicodeChar : L' ';
 }
 
-void console_controller::fill_horizontal(const int16_t x, const int16_t y, const uint16_t character, const uint16_t count)
+void console_controller::fill_horizontal(const int16_t x, const int16_t y, const uint16_t character, const uint16_t count, const uint16_t color_code)
 {
 	CONSOLE_SCREEN_BUFFER_INFO buffer;
 	if (!GetConsoleScreenBufferInfo(this->get_console_handle(), &buffer))
 		return;
 
-	auto coords = COORD{ x, y };
+	const auto coords = COORD{ x, y };
 
 	uint32_t written_count;
-	if (!FillConsoleOutputCharacterW(this->get_console_handle(), character, count, coords, reinterpret_cast<LPDWORD>(&written_count)))
-		return;
-}
+	FillConsoleOutputCharacterW(this->get_console_handle(), character, count, coords, reinterpret_cast<LPDWORD>(&written_count));
 
-void console_controller::fill_vertical(const int16_t x, const int16_t y, const uint16_t character, const uint16_t count)
-{
-	for (int16_t i = 0; i < count; i++)
-		this->draw(x, y + i, character);
+	if (color_code)
+		FillConsoleOutputAttribute(this->get_console_handle(), color_code, count, coords, reinterpret_cast<LPDWORD>(&written_count));
 }
 
 void console_controller::set_position(const int16_t x, const int16_t y)

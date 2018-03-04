@@ -16,26 +16,26 @@ struct screen_vector
 
 struct tetromino
 {
-	tetromino(const uint8_t character, const std::initializer_list<screen_vector> args) : elements(args), unique_character(character) {}
+	tetromino(const uint8_t new_color_code, const std::initializer_list<screen_vector> args) : elements(args), color_code(new_color_code) {}
 
 	inline auto operator[] (const size_t index) -> screen_vector&
 	{
-		return elements[index];
+		return this->elements[index];
 	}
 
 	inline auto get_elements() -> std::vector<screen_vector>&
 	{
-		return elements;
+		return this->elements;
 	}
 	
-	inline auto get_character() -> const uint8_t
+	inline constexpr auto get_color() -> const uint8_t
 	{
-		return unique_character;
+		return this->color_code;
 	}
 	
 	inline auto get_size() -> const size_t
 	{
-		return elements.size();
+		return this->elements.size();
 	}
 
 	inline auto rotate(double angle) -> tetromino
@@ -65,5 +65,5 @@ struct tetromino
 
 private:
 	std::vector<screen_vector> elements;
-	uint8_t unique_character;
+	uint8_t color_code;
 };
