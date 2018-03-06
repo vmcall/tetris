@@ -33,11 +33,14 @@
     <ClInclude Include="tetris_component.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="tetromino_data.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="array2d.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="stdafx.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="console.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
