@@ -1,6 +1,9 @@
 #pragma once
-#include "stdafx.h"
+#include <Windows.h>
+#include <cstdint>
+#include <array>
 #include "array2d.hpp"
+#include "coordinate_data.hpp"
 
 enum console_color
 {
@@ -21,19 +24,7 @@ enum console_color
 	white
 };
 
-struct coordinate_data
-{
-	uint16_t character;
-	uint16_t color_code;
 
-	coordinate_data() : character(0), color_code(0) {}
-	coordinate_data(const uint16_t new_character, const uint16_t new_color_code) : character(new_character), color_code(new_color_code) {}
-
-	bool operator==(const coordinate_data& other)
-	{
-		return this->character == other.character && this->color_code == other.color_code;
-	}
-};
 
 class console_controller
 {
@@ -46,7 +37,6 @@ public:
 
 	// CONTROL
 	bool get_key_press(const int32_t vkey);
-	std::array<bool, 256>& get_pressed_keys();
 
 	// FILLING
 	void clear();
@@ -67,11 +57,15 @@ public:
 private:
 	// BUFFER
 	bool use_buffer;
+	bool& should_use_buffer();
 	array2d<coordinate_data> new_frame;
 	array2d<coordinate_data> previous_frame;
+	array2d<coordinate_data>& get_new_frame();
+	array2d<coordinate_data>& get_previous_frame();
 
 	// INPUT
 	std::array<bool, 256> pressed_keys;
+	std::array<bool, 256>& get_pressed_keys();
 
 	// HANDLE
 	HANDLE console_handle;

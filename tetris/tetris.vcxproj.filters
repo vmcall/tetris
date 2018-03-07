@@ -18,19 +18,7 @@
     <ClInclude Include="rng.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="stdafx.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="targetver.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="console.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="tetris.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="tetris_component.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="tetromino_data.hpp">
@@ -39,12 +27,39 @@
     <ClInclude Include="array2d.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="screen_vector.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="solid_piece.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="console_controller.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tetromino.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="coordinate_data.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="console.cpp">
+    <ClCompile Include="tetris.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="tetris.cpp">
+    <ClCompile Include="tetromino_data.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="screen_vector.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="solid_piece.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="console_controller.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="coordinate_data.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

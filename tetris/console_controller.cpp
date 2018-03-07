@@ -1,10 +1,8 @@
-#include "stdafx.h"
-#include "console.hpp"
-#define GWL_WNDPROC (-4)
+#include "console_controller.hpp"
 
 console_controller::console_controller(const HANDLE hconsole, const int32_t width, const int32_t height)
 {
-	this->console_handle = hconsole;
+	this->get_console_handle() = hconsole;
 
 	// SET WINDOW SIZE
 	const auto window_handle = GetConsoleWindow();
@@ -17,8 +15,8 @@ console_controller::console_controller(const HANDLE hconsole, const int32_t widt
 	SetConsoleCursorInfo(this->get_console_handle(), &cursor_info);
 
 	// SET UP BUFFER
-	this->new_frame = array2d<coordinate_data>(height, width);
-	this->previous_frame = array2d<coordinate_data>(height, width);
+	this->get_new_frame() = array2d<coordinate_data>(height, width);
+	this->get_previous_frame() = array2d<coordinate_data>(height, width);
 }
 
 HANDLE& console_controller::get_console_handle()
@@ -41,6 +39,21 @@ bool console_controller::get_key_press(const int32_t vkey)
 	return result;
 }
 
+bool& console_controller::should_use_buffer()
+{
+	return use_buffer;
+}
+
+array2d<coordinate_data>& console_controller::get_new_frame()
+{
+	return this->new_frame;
+}
+
+array2d<coordinate_data>& console_controller::get_previous_frame()
+{
+	return this->previous_frame;
+}
+
 std::array<bool, 256>& console_controller::get_pressed_keys()
 {
 	return this->pressed_keys;
@@ -48,13 +61,13 @@ std::array<bool, 256>& console_controller::get_pressed_keys()
 
 void console_controller::clear()
 {
-	if (this->use_buffer)
+	if (this->should_use_buffer())
 	{
-		for (size_t row_index = 0; row_index < this->new_frame.row_count(); row_index++)
+		for (size_t row_index = 0; row_index < this->get_new_frame().get_row_count(); row_index++)
 		{
-			for (size_t element_index = 0; element_index < this->new_frame.row_size(); element_index++)
+			for (size_t element_index = 0; element_index < this->get_new_frame().get_row_size(); element_index++)
 			{
-				this->new_frame.get_element(row_index, element_index) = coordinate_data();
+				this->get_new_frame().get_element(row_index, element_index) = coordinate_data();
 			}
 		}
 	}
@@ -75,13 +88,13 @@ void console_controller::clear()
 }
 void console_controller::clear(const int16_t x, const int16_t y, const int16_t width, const int16_t height)
 {
-	if (this->use_buffer)
+	if (this->should_use_buffer())
 	{
 		for (size_t row_index = y; row_index < y + height; row_index++)
 		{
 			for (size_t element_index = x; element_index < x + width; element_index++)
 			{
-				this->new_frame.get_element(row_index, element_index) = coordinate_data();
+				this->get_new_frame().get_element(row_index, element_index) = coordinate_data();
 			}
 		}
 	}
@@ -95,11 +108,11 @@ void console_controller::clear(const int16_t x, const int16_t y, const int16_t w
 
 void console_controller::draw(const int16_t x, const int16_t y, const std::string& message, const uint16_t color_code)
 {
-	if (this->use_buffer)
+	if (this->should_use_buffer())
 	{
 		for (size_t i = 0; i < message.size(); i++)
 		{
-			this->new_frame.get_element(y, x + i) = coordinate_data(message[i], color_code);
+			this->get_new_frame().get_element(y, x + i) = coordinate_data(message[i], color_code);
 		}
 	}
 	else
@@ -115,9 +128,9 @@ void console_controller::draw(const int16_t x, const int16_t y, const std::strin
 }
 void console_controller::draw(const int16_t x, const int16_t y, const uint16_t character, const uint16_t color_code)
 {
-	if (this->use_buffer)
+	if (this->should_use_buffer())
 	{
-		this->new_frame.get_element(y, x) = coordinate_data(character, color_code);
+		this->get_new_frame().get_element(y, x) = coordinate_data(character, color_code);
 	}
 	else
 	{
@@ -133,9 +146,9 @@ void console_controller::draw(const int16_t x, const int16_t y, const uint16_t c
 
 uint16_t console_controller::read(const int16_t x, const int16_t y)
 {
-	if (this->use_buffer)
+	if (this->should_use_buffer())
 	{
-		return this->new_frame.get_element(y, x).character;
+		return this->get_new_frame().get_element(y, x).get_character();
 	}
 	else
 	{
@@ -150,11 +163,11 @@ uint16_t console_controller::read(const int16_t x, const int16_t y)
 
 void console_controller::fill_horizontal(const int16_t x, const int16_t y, const uint16_t character, const uint16_t count, const uint16_t color_code)
 {
-	if (this->use_buffer)
+	if (this->should_use_buffer())
 	{
 		for (size_t i = 0; i < count; i++)
 		{
-			this->new_frame.get_element(y, x + i) = coordinate_data(character, color_code);
+			this->get_new_frame().get_element(y, x + i) = coordinate_data(character, color_code);
 		}
 	}
 	else
@@ -175,30 +188,30 @@ void console_controller::fill_horizontal(const int16_t x, const int16_t y, const
 
 void console_controller::update_scene()
 {
-	if (!this->use_buffer)
+	if (!this->should_use_buffer())
 		return;
 
 	// DRAW ONLY UPDATED SQUARES
-	for (size_t row_index = 0; row_index < this->new_frame.row_count(); row_index++)
+	for (size_t row_index = 0; row_index < this->get_new_frame().get_row_count(); row_index++)
 	{
-		for (size_t element_index = 0; element_index < this->new_frame.row_size(); element_index++)
+		for (size_t element_index = 0; element_index < this->get_new_frame().get_row_size(); element_index++)
 		{
-			auto new_data = this->new_frame.get_element(row_index, element_index);
-			auto previous_data = this->previous_frame.get_element(row_index, element_index);
+			auto new_data = this->get_new_frame().get_element(row_index, element_index);
+			auto previous_data = this->get_previous_frame().get_element(row_index, element_index);
 
 			// DO NOT UPDATE CHARACTER
 			if (new_data == previous_data)
 				continue;
 
-			if (new_data.color_code)
-				SetConsoleTextAttribute(this->get_console_handle(), new_data.color_code);
+			if (new_data.get_color())
+				SetConsoleTextAttribute(this->get_console_handle(), new_data.get_color());
 
 			this->set_position(element_index, row_index);
-			printf("%lc", new_data.character);
+			printf("%lc", new_data.get_character());
 		}
 	}
 
-	this->previous_frame = this->new_frame;
+	this->get_previous_frame() = this->get_new_frame();
 }
 
 void console_controller::toggle_buffer_render(bool toggle)

@@ -1,5 +1,6 @@
 #pragma once
-#include "stdafx.h"
+#include <random>
+#include <cstdint>
 
 // rand() IS NOT SECURE
 // THIS IS THE PROPER C++ WAY

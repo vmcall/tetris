@@ -1,11 +1,17 @@
 #pragma once
-#include "stdafx.h"
+#include <cstdint>
+#include "tetromino.hpp"
+#include "screen_vector.hpp"
 
 struct tetromino_data
 {
-	tetromino_data(screen_vector arg_position, bool arg_is_moving, tetromino arg_piece) : position(arg_position), is_moving(arg_is_moving), piece(arg_piece) {}
+	tetromino_data(screen_vector new_position, tetromino new_piece) : position(new_position), piece(new_piece) {}
+	tetromino_data() : position(), piece() {}
 
+	screen_vector& get_position();
+	tetromino& get_piece();
+
+private:
 	screen_vector position;
-	bool is_moving;
 	tetromino piece;
 };

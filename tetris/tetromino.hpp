@@ -1,22 +1,17 @@
 #pragma once
-#include "stdafx.h"
+
 #define _USE_MATH_DEFINES
 #include <math.h>
+#include <initializer_list>
+#include <vector>
+#include <cstdint>
+#include "screen_vector.hpp"
 
-struct screen_vector
-{
-	int16_t x;
-	int16_t y;
-
-	bool operator ==(screen_vector other)
-	{
-		return other.x == this->x && other.y == this->y;
-	}
-};
 
 struct tetromino
 {
 	tetromino(const uint8_t new_color_code, const std::initializer_list<screen_vector> args) : elements(args), color_code(new_color_code) {}
+	tetromino() : elements(), color_code(0) {}
 
 	inline auto operator[] (const size_t index) -> screen_vector&
 	{
@@ -54,10 +49,9 @@ struct tetromino
 			// IN THIS CASE Y COORDINATE IS MIRRORED DUE TO 
 			// SCREEN BUFFER STARTING FROM TOP-LEFT (READ CRT WIKIPEDIA)
 			// SO CLOCKWISE ROTATION IS (-y, x)
-			auto& [x, y] = part;
-			const auto old_x = x;
-			x = -y;
-			y = old_x;
+			const auto old_x = part.x();
+			part.x() = -part.y();
+			part.y() = old_x;
 		}
 
 		return copy;

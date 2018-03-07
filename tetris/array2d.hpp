@@ -1,5 +1,6 @@
 #pragma once
-#include "stdafx.h"
+#include <vector>
+#include <algorithm>
 
 template <typename T>
 struct array2d
@@ -21,11 +22,11 @@ struct array2d
 		return this->data[x_index];
 	}
 
-	auto row_count() -> size_t
+	auto get_row_count() -> size_t
 	{
 		return this->count_of_row;
 	}
-	auto row_size() -> size_t
+	auto get_row_size() -> size_t
 	{
 		return this->size_of_row;
 	}
