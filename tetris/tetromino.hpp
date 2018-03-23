@@ -33,13 +33,8 @@ struct tetromino
 		return this->elements.size();
 	}
 
-	inline auto rotate(double angle) -> tetromino
+	inline auto rotate() -> tetromino
 	{
-		auto degree_to_radian = [](double angle)
-		{
-			return angle * (M_PI / 180);
-		};
-
 		auto copy = *this;
 
 		for (auto& part : copy.get_elements())

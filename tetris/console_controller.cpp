@@ -123,7 +123,7 @@ void console_controller::draw(const int16_t x, const int16_t y, const std::strin
 
 		// SET POSITION AND WRITE
 		this->set_position(x, y);
-		printf("%s", message.c_str());
+		std::printf("%s", message.c_str());
 	}
 }
 void console_controller::draw(const int16_t x, const int16_t y, const uint16_t character, const uint16_t color_code)
@@ -140,7 +140,7 @@ void console_controller::draw(const int16_t x, const int16_t y, const uint16_t c
 
 		// SET POSITION AND WRITE
 		this->set_position(x, y);
-		printf("%lc", character);
+		std::printf("%lc", character);
 	}
 }
 
@@ -207,7 +207,7 @@ void console_controller::update_scene()
 				SetConsoleTextAttribute(this->get_console_handle(), new_data.get_color());
 
 			this->set_position(element_index, row_index);
-			printf("%lc", new_data.get_character());
+			std::printf("%lc", new_data.get_character());
 		}
 	}
 

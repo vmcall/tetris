@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="console_controller">
+    <Position X="2.75" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AEAQAIAAAAAAACAAACIgAAIAhAAAgAAABqAAAEIAABA=</HashCode>
+      <FileName>console_controller.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="tetris">
+    <Position X="7.75" Y="0.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>ABABCiIGlQgCARAAUoBoAAAiEAAwACAIABgBEBAhaAA=</HashCode>
+      <FileName>tetris.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Struct Name="array2d&lt;T&gt;">
+    <Position X="5" Y="5.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAEAAAAAAAAAAAAAAAAABIBAEAAQgIAAAAA=</HashCode>
+      <FileName>array2d.hpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="coordinate_data">
+    <Position X="5" Y="0.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAMAAAgAAAAAAAAAAAAAUAAAAAAAAAAAAAAAAQAAAA=</HashCode>
+      <FileName>coordinate_data.hpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="screen_vector">
+    <Position X="5" Y="3" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIAAAAAAAAAAAAAAAQAAAAAAAABAAABgAAAAAAA=</HashCode>
+      <FileName>screen_vector.hpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="solid_piece">
+    <Position X="0.5" Y="4.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAQAQAQ=</HashCode>
+      <FileName>solid_piece.hpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="tetromino">
+    <Position X="2.75" Y="6" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAgAAAAgBAAAAAQAAAAAAEAAABAAAAAAAQAAAA=</HashCode>
+      <FileName>tetromino.hpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="tetromino_data">
+    <Position X="0.5" Y="6.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAACAAAAQCAAAAAAIAAAAAAAACAgAAAAAAAAAAQ=</HashCode>
+      <FileName>tetromino_data.hpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Enum Name="console_color">
+    <Position X="0.5" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>EAACAAAAAAAAUAAAAQIEAAAAAAQAEAAAIAAQAAAUIAA=</HashCode>
+      <FileName>console_controller.hpp</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
