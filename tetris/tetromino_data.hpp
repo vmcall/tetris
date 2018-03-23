@@ -5,13 +5,15 @@
 
 struct tetromino_data
 {
-	tetromino_data(screen_vector new_position, tetromino new_piece) : position(new_position), piece(new_piece) {}
-	tetromino_data() : position(), piece() {}
+	tetromino_data(screen_vector new_position, tetromino new_piece) : position(new_position), piece(new_piece), is_valid(true) {}
+	tetromino_data() : position(), piece(), is_valid(false) {}
 
 	screen_vector& get_position();
 	tetromino& get_piece();
+	bool valid();
 
 private:
+	bool is_valid;
 	screen_vector position;
 	tetromino piece;
 };

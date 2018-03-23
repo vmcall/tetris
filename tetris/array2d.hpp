@@ -13,7 +13,7 @@ struct array2d
 		});
 	}
 
-	auto get_element(int32_t x_index, int32_t y_index) -> T&
+	auto get_element(size_t x_index, size_t y_index) -> T&
 	{
 		return this->data[x_index][y_index];
 	}

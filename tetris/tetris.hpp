@@ -33,6 +33,8 @@ private:
 
 	// GAME
 	void game_loop();
+	void draw_saved_piece();
+	void draw_next_tetromino();
 	void draw_score();
 	void draw_ghost_tetromino();
 	void draw_solid_parts();
@@ -47,22 +49,38 @@ private:
 	tetromino_data next_piece;
 	tetromino_data saved_piece;
 
+	tetromino_data& get_current_piece();
+	tetromino_data& get_next_piece();
+	tetromino_data& get_saved_piece();
+
+	bool has_switched_piece;
+	bool& get_switched_piece();
+
 	// COLLISION
 	bool does_element_collide(tetromino& piece, screen_vector position);
 	bool collides(screen_vector part, screen_vector position);
 
 	// CONSOLE I/O CONTROLLER
 	console_controller console;
-	
+	console_controller& get_console();
+
 	// GAME SETTINGS
 	int32_t border_width;
 	int32_t border_height;
 	int16_t piece_character;
 
+	int32_t& get_border_width();
+	int32_t& get_border_height();
+	int16_t& get_piece_character();
+
+
 	// SCOREBOARD
 	uint32_t score;
+	uint32_t& get_score();
 
 	// ENTITIES
 	array2d<solid_piece> solid_pieces;
+	array2d<solid_piece>& get_solid_pieces();
+
 	tetromino_data generate_tetromino();
 };

@@ -192,9 +192,9 @@ void console_controller::update_scene()
 		return;
 
 	// DRAW ONLY UPDATED SQUARES
-	for (size_t row_index = 0; row_index < this->get_new_frame().get_row_count(); row_index++)
+	for (int16_t row_index = 0; row_index < this->get_new_frame().get_row_count(); row_index++)
 	{
-		for (size_t element_index = 0; element_index < this->get_new_frame().get_row_size(); element_index++)
+		for (int16_t element_index = 0; element_index < this->get_new_frame().get_row_size(); element_index++)
 		{
 			auto new_data = this->get_new_frame().get_element(row_index, element_index);
 			auto previous_data = this->get_previous_frame().get_element(row_index, element_index);
