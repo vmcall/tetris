@@ -10,7 +10,6 @@
 #include "solid_piece.hpp"
 #include "rng.hpp"
 
-using steady_clock_t = std::chrono::steady_clock;
 using key_handler_map_t = std::map<int32_t, void(*)(class tetris*, tetromino_data&, screen_vector, bool&)>;
 
 class tetris

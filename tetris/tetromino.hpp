@@ -10,8 +10,8 @@
 
 struct tetromino
 {
+	tetromino() = default;
 	tetromino(const uint8_t new_color_code, const std::initializer_list<screen_vector> args) : elements(args), color_code(new_color_code) {}
-	tetromino() : elements(), color_code(0) {}
 
 	inline auto operator[] (const size_t index) -> screen_vector&
 	{

@@ -3,7 +3,7 @@
 
 struct screen_vector
 {
-	screen_vector() : data_x(0), data_y(0) {}
+	screen_vector() = default;
 	screen_vector(const int16_t new_x, const int16_t new_y) : data_x(new_x), data_y(new_y) {}
 
 	bool operator ==(screen_vector other)

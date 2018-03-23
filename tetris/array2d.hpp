@@ -5,7 +5,7 @@
 template <typename T>
 struct array2d
 {
-	array2d() {}
+	array2d() = default;
 	array2d(size_t x, size_t y) : count_of_row(x), size_of_row(y), data(count_of_row)
 	{
 		std::for_each(data.begin(), data.end(), [=](auto& row) {

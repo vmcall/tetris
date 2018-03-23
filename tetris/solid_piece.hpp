@@ -3,7 +3,7 @@
 
 struct solid_piece
 {
-	solid_piece() : valid(false), color_code(0x00) {}
+	solid_piece() = default;
 
 	bool& is_valid();
 	uint16_t& get_color();

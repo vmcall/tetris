@@ -32,7 +32,6 @@ public:
 	console_controller(const HANDLE hconsole, const int32_t width, const int32_t height);
 
 	// GENERAL
-	HANDLE& get_console_handle();
 	void set_title(const std::wstring& title);
 
 	// CONTROL
@@ -69,4 +68,5 @@ private:
 
 	// HANDLE
 	HANDLE console_handle;
+	HANDLE& get_console_handle();
 };

@@ -5,8 +5,8 @@
 
 struct tetromino_data
 {
+	tetromino_data() = default;
 	tetromino_data(screen_vector new_position, tetromino new_piece) : position(new_position), piece(new_piece), is_valid(true) {}
-	tetromino_data() : position(), piece(), is_valid(false) {}
 
 	screen_vector& get_position();
 	tetromino& get_piece();
