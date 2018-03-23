@@ -196,8 +196,8 @@ void console_controller::update_scene()
 	{
 		for (int16_t element_index = 0; element_index < this->get_new_frame().get_row_size(); element_index++)
 		{
-			auto new_data = this->get_new_frame().get_element(row_index, element_index);
-			auto previous_data = this->get_previous_frame().get_element(row_index, element_index);
+			auto& new_data = this->get_new_frame().get_element(row_index, element_index);
+			auto& previous_data = this->get_previous_frame().get_element(row_index, element_index);
 
 			// DO NOT UPDATE CHARACTER
 			if (new_data == previous_data)
@@ -226,7 +226,7 @@ void console_controller::set_position(const int16_t x, const int16_t y)
 
 std::pair<int16_t, int16_t> console_controller::get_position()
 {
-	CONSOLE_SCREEN_BUFFER_INFO  info;
+	CONSOLE_SCREEN_BUFFER_INFO info;
 	GetConsoleScreenBufferInfo(this->get_console_handle(), &info);
 
 	return std::make_pair(info.dwCursorPosition.X, info.dwCursorPosition.Y);
